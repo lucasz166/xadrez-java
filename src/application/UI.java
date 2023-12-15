@@ -46,7 +46,7 @@ public class UI {
             return new ChessPosition(column, row);
         }
         catch (RuntimeException e) {
-            throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
+            throw new InputMismatchException("Erro ao ler a posicao. Valores validos somente de a1 ate h8.");
         }
     }
 
@@ -55,11 +55,18 @@ public class UI {
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
-        System.out.println("Turn: " + chessMatch.getTurn());
-        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-        if (chessMatch.getCheck()) {
-            System.out.println("CHECK!");
+        System.out.println("Turno: " + chessMatch.getTurn());
+        if (!chessMatch.getCheck()) {
+            System.out.println("Esperando jogador: " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println("CHECK!");
+            }
         }
+        else {
+            System.out.println("CHECKMATE!");
+            System.out.println("VENCEDOR: " + chessMatch.getCurrentPlayer());
+        }
+
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
@@ -104,11 +111,11 @@ public class UI {
     private static void printCapturedPieces(List<ChessPiece> captured) {
         List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
         List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
-        System.out.println("Captured pieces:");
-        System.out.print("White: ");
+        System.out.println("Pecas capturadas: ");
+        System.out.print("Branca: ");
         System.out.print(ANSI_WHITE);
         System.out.println(Arrays.toString(white.toArray()));
-        System.out.print("Black: ");
+        System.out.print("Preta: ");
         System.out.print(ANSI_YELLOW);
         System.out.println(Arrays.toString(black.toArray()));
     }
